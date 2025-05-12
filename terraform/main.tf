@@ -7,10 +7,6 @@ resource "aws_key_pair" "deployer" {
   public_key = file("~/.ssh/id_rsa.pub")  # Make sure this key exists
 }
 
-resource "aws_security_group" "parking_sg" {
-  name        = "parking-sg"
-  description = "Allow SSH and app traffic"
-
   ingress {
     from_port   = 22
     to_port     = 22
