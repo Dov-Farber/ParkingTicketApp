@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-2"  # or your preferred region
+  region = "us-east-1"  # or your preferred region
 }
 
 resource "aws_security_group" "parking_sg" {
