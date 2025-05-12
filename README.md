@@ -49,6 +49,35 @@ This repository contains the Parking Ticket App, which is deployed using Terrafo
    - The app should display its main interface.
    - Test the app's features to ensure everything is working as expected.
 
+## Testing the App Remotely
+
+1. **Find the Public IP Address**:
+   After deploying the app, retrieve the public IP address of the EC2 instance. You can find it in the Terraform output or in the AWS Management Console under the EC2 section.
+
+2. **Test the `/entry` Route**:
+   Use `curl` or a similar tool to test the `/entry` route. Replace `<EC2_PUBLIC_IP>` with the public IP address of your EC2 instance:
+   ```bash
+   curl -X POST "http://<EC2_PUBLIC_IP>:3000/entry?plate=ABC123&parkingLot=1" -H "Content-Type: application/json"
+   ```
+   This should return a JSON response with a `ticket_id`.
+
+3. **Test the `/exit` Route**:
+   Use the `ticket_id` from the `/entry` response to test the `/exit` route:
+   ```bash
+   curl -X POST "http://<EC2_PUBLIC_IP>:3000/exit?ticketId=<TICKET_ID>" -H "Content-Type: application/json"
+   ```
+   Replace `<TICKET_ID>` with the actual ticket ID. This should return a JSON response confirming the ticket closure.
+
+4. **Verify Security Group Settings**:
+   If the app is not accessible, ensure the security group attached to the EC2 instance allows inbound traffic on port 3000. Update the security group if necessary.
+
+5. **Browser Access**:
+   You can also test the app by opening a web browser and navigating to:
+   ```
+   http://<EC2_PUBLIC_IP>:3000
+   ```
+   Replace `<EC2_PUBLIC_IP>` with the public IP address of the EC2 instance.
+
 ## Troubleshooting
 
 - **App Not Accessible**:
