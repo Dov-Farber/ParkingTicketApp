@@ -2,11 +2,6 @@ provider "aws" {
   region = "us-west-2"  # or your preferred region
 }
 
-resource "aws_key_pair" "deployer" {
-  key_name   = "deployer-key"
-  public_key = file("~/.ssh/id_rsa.pub")  # Make sure this key exists
-}
-
 resource "aws_security_group" "parking_sg" {
   name        = "parking_sg"
   description = "Security group for ParkingTicketApp"
@@ -51,21 +46,20 @@ data "aws_ami" "amazon_linux" {
 resource "aws_instance" "parking_app" {
   ami                         = data.aws_ami.amazon_linux.id
   instance_type               = "t2.micro"
-  key_name                    = aws_key_pair.deployer.key_name
   vpc_security_group_ids      = [aws_security_group.parking_sg.id]
 
   user_data = <<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y git python3 pip
+  #!/bin/bash
+  yum update -y
+  yum install -y git python3 pip
 
-              cd /home/ec2-user
-              git clone https://github.com/Dov-Farber/ParkingTicketApp.git
-              cd parking_ticket_python
-              pip install -r requirements.txt
-              chmod +x start.sh
-              ./start.sh
-              EOF
+  cd /home/ec2-user
+  git clone https://github.com/Dov-Farber/ParkingTicketApp.git
+  cd parking_ticket_python
+  pip install -r requirements.txt
+  chmod +x start.sh
+  ./start.sh
+  EOF
 
   tags = {
     Name = "ParkingTicketApp"
