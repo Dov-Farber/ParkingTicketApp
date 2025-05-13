@@ -47,6 +47,7 @@ resource "aws_instance" "parking_app" {
   ami                         = data.aws_ami.amazon_linux.id
   instance_type               = "t2.micro"
   vpc_security_group_ids      = [aws_security_group.parking_sg.id]
+  key_name               = "parking-key"  # 👈 Ensure this matches your AWS EC2 Key Pair
 
   user_data = <<-EOF
   #!/bin/bash
