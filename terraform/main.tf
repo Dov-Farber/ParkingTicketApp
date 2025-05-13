@@ -54,10 +54,16 @@ resource "aws_instance" "parking_app" {
   yum update -y
   yum install -y git python3 pip
 
-  cd /home/bear
+  # Create the directory and clone the repository
+  mkdir -p /home/ec2-user/parking_ticket_python
+  cd /home/ec2-user
   git clone https://github.com/Dov-Farber/ParkingTicketApp.git
+
+  # Install Python dependencies
   cd parking_ticket_python
   pip install -r requirements.txt
+
+  # Make the start.sh script executable and run it
   chmod +x start.sh
   ./start.sh
   EOF
