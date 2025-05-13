@@ -36,6 +36,10 @@ This repository contains the Parking Ticket App, which is deployed using Terrafo
 5. **Retrieve the Public IP Address**:
    After the deployment, Terraform will output the public IP address of the EC2 instance. You can also find it in the AWS Management Console under the EC2 section.
 
+**establish an SSH connection to your EC2 instance**:
+not sure if this is needed...
+ssh -i ~/.ssh/parking-key.pem ec2-user@<your-new-ec2-ip>
+
 ## Testing the App
 
 1. **Access the App**:
